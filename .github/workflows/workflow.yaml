@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     environment: production
     steps:
-    - run: echo 'test ${{ env }}'
+    - run: echo 'test ${{ env.TEST }}'
     - name: Checkout
       uses: actions/checkout@v3
 
