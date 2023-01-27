@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-22.04
     environment: production
     steps:
-    - run: echo 'test ${{ vars.DOCKER_HUB_USERNAME }}'
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -32,4 +31,4 @@ jobs:
       with:
         platforms: linux/arm64, linux/amd64
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/gatewise:latest
+        tags: ${{ vars.DOCKER_HUB_USERNAME }}/gatewise:latest
