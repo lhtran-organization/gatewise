@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     environment: production
     steps:
+    - run: echo 'username ${{ env.DOCKER_HUB_USERNAME }}'
     - name: Checkout
       uses: actions/checkout@v3
 
