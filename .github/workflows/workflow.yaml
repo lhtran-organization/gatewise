@@ -1,4 +1,4 @@
-name: Build gatewise-web and push to DockerHub
+name: Build gatewise and push to DockerHub
 on:
   push:
     branches: [ master ]
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     environment: production
     steps:
-    - run: echo 'username ${{ env.DOCKER_HUB_USERNAME }}'
+    - run: echo 'username ${{ secrets.DOCKER_HUB_USERNAME }}'
     - name: Checkout
       uses: actions/checkout@v3
 
@@ -32,4 +32,4 @@ jobs:
       with:
         platforms: linux/arm64, linux/amd64
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/gatewise-web:latest
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/gatewise:latest
