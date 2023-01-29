@@ -1,5 +1,7 @@
 name: PR open test build images
 on:
+  push:
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 jobs:
