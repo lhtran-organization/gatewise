@@ -11,12 +11,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v4
-      with:
-        images: ${{ vars.DOCKER_HUB_USERNAME }}/gatewise
-
     - name: setup QEMU
       uses: docker/setup-qemu-action@v2
       with:
@@ -36,5 +30,4 @@ jobs:
       with:
         push: true
         platforms: linux/arm64, linux/amd64
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        tags: ${{ vars.DOCKER_HUB_USERNAME }}/gatewise:pr-${{ github.event.pull_request.number }}
