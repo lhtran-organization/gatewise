@@ -28,4 +28,4 @@ jobs:
       with:
         push: true
         platforms: linux/arm64, linux/amd64
-        tags: ${{ vars.DOCKER_HUB_USERNAME }}/gatewise:pr-${{ github.event.pull_request.title }}
+        tags: ${{ vars.DOCKER_HUB_USERNAME }}/gatewise:pr-${{ github.event.pull_request.number }}
