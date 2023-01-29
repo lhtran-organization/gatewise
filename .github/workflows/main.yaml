@@ -1,5 +1,9 @@
 name: PR open test build images
 on:
+  push:
+    branches: [ latest ]
+    tags:
+    - 'v*'
   pull_request:
     branches: [ latest ]
 jobs:
@@ -13,7 +17,13 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
-        images: ${{ vars.DOCKER_HUB_USERNAME }}/gatewise
+        images: |
+          ${{ vars.DOCKER_HUB_USERNAME }}/gatewise
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
 
     - name: setup QEMU
       uses: docker/setup-qemu-action@v2
