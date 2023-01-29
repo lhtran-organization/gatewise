@@ -1,16 +1,19 @@
-name: Build gatewise and push to DockerHub
+name: PR open test build images
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 jobs:
   build_docker_image:
     runs-on: ubuntu-22.04
-    environment: production
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ vars.DOCKER_HUB_USERNAME }}/gatewise
 
     - name: setup QEMU
       uses: docker/setup-qemu-action@v2
@@ -29,6 +32,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-        platforms: linux/arm64, linux/amd64
         push: true
-        tags: ${{ vars.DOCKER_HUB_USERNAME }}/gatewise:latest
+        platforms: linux/arm64, linux/amd64
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
