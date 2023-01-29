@@ -1,7 +1,9 @@
 name: PR open test build images
 on:
-  pull_request:
+  push:
     branches: [ latest ]
+    tags:
+    - 'v*'
 jobs:
   build_docker_image:
     runs-on: ubuntu-22.04
