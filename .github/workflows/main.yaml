@@ -58,6 +58,7 @@ jobs:
         path: /tmp/version
 
   update_new_build_version:
+    depends_on: [build_docker_image]
     runs-on: ubuntu-22.04
     steps:
     - name: get gatewise build version
