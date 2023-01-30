@@ -47,6 +47,28 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-    - name: Edit kubernetes manifests
+    - name: echo tag build
       run: |
-        echo "edited"
+        echo '${{ steps.meta.outputs.tags }}'
+
+    - name: upload gatewise deploy version
+      uses: actions/upload-artifact@v3
+      with:
+        name: gatewise-version
+        path: /tmp/version
+
+  update_new_build_version:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: get gatewise build version
+      uses: actions/download-artifact@v3
+      with:
+        name: gatewise-version
+        path: ./
+
+    - name: Checkout manifests repo
+      uses: actions/checkout@v3
+      with:
+        repository: lhtran-organization/gatewise-manifests
+        ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }} 
+
