@@ -1,11 +1,11 @@
 name: PR open test build images
 on:
   push:
-    branches: [ latest ]
+    branches: [ master ]
     tags:
     - 'v*'
   pull_request:
-    branches: [ latest ]
+    branches: [ master ]
 jobs:
   build_docker_image:
     runs-on: ubuntu-22.04
@@ -47,4 +47,6 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-    - name: Update kubernetes manifests
+    - name: Edit kubernetes manifests
+      run: |
+        echo "edited"
