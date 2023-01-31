@@ -62,11 +62,9 @@ jobs:
     needs: [build_docker_image]
     runs-on: ubuntu-22.04
     steps:
-    - name: Checkout manifests repo
-      uses: actions/checkout@v3
-      with:
-        repository: lhtran-organization/gatewise-manifests
-        ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }}
+    - name: pip install ruamel.yaml
+      run: |
+        pip install ruamel.yaml
 
     - name: download gatewise image name
       uses: actions/download-artifact@v3
@@ -74,13 +72,12 @@ jobs:
         name: ${{ vars.GATEWISE_IMAGE_TXT }}
         path: ./
 
-    - name: debug
+    - name: Checkout manifests repo
+      uses: actions/checkout@v3
+      with:
+        repository: lhtran-organization/gatewise-manifests
+        ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }}
+        path: ./manifests
       run: |
-        pwd
-        ls -l
-
-    - name: run image update script
-      run: |
-        pip install ruamel.yaml
-        python image_update.py ${{ vars.GATEWISE_IMAGE_TXT }}
+        python ./manifests/image_update.py ${{ vars.GATEWISE_IMAGE_TXT }}
 
