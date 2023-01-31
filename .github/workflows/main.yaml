@@ -62,10 +62,6 @@ jobs:
     needs: [build_docker_image]
     runs-on: ubuntu-22.04
     steps:
-    - name: pip install ruamel.yaml
-      run: |
-        pip install ruamel.yaml
-
     - name: download gatewise image name
       uses: actions/download-artifact@v3
       with:
@@ -78,6 +74,7 @@ jobs:
         repository: lhtran-organization/gatewise-manifests
         ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }}
         path: ./manifests
-      run: |
+    - run: |
+        pip install ruamel.yaml
         python ./manifests/image_update.py ${{ vars.GATEWISE_IMAGE_TXT }}
 
