@@ -51,12 +51,6 @@ jobs:
       run: |
         echo '${{ steps.meta.outputs.tags }}' | head -1 > /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
-    - name: upload gatewise image name
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ vars.GATEWISE_IMAGE_TXT }}
-        path: /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
-
   update_manifests_repo:
     if: ${{ github.event_name == 'push' }} && ${{ github.ref == 'refs/heads/master' }}
     needs: [build_docker_image]
@@ -73,6 +67,12 @@ jobs:
       with:
         repository: lhtran-organization/gatewise-manifests
         ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }}
+
+    - name: upload gatewise image name
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ vars.GATEWISE_IMAGE_TXT }}
+        path: /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
     - name: debug
       run: |
