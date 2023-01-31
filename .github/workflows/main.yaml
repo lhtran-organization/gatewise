@@ -57,6 +57,10 @@ jobs:
         name: ${{ vars.GATEWISE_IMAGE_TXT }}
         path: /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
+    - name: debug
+      run: |
+        echo ${{ github.ref }}
+
   update_manifests_repo:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/tags' }}
     needs: [build_docker_image]
