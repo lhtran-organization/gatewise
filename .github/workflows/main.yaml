@@ -74,6 +74,11 @@ jobs:
         repository: lhtran-organization/gatewise-manifests
         ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }}
 
+    - name: debug
+      run: |
+        pwd
+        ls -l
+
     - name: run image update script
       run: |
         pip install ruamel.yaml
