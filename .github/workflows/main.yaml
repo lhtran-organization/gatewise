@@ -56,10 +56,6 @@ jobs:
       with:
         name: ${{ vars.GATEWISE_IMAGE_TXT }}
         path: /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
-    
-    - name: debug
-      run: |
-        echo ${{ github.ref }}
 
   update_manifests_repo:
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
