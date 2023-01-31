@@ -58,7 +58,7 @@ jobs:
         path: /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
   update_manifests_repo:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/tags' }}
     needs: [build_docker_image]
     runs-on: ubuntu-22.04
     steps:
@@ -85,8 +85,6 @@ jobs:
 
     - working-directory: ./manifest
       run: |
-        pwd
-        ls -l
         pip install ruamel.yaml
         python ../helper-scripts/kubernetes/deploy_image_update.py ./deployment.yaml longhtran91/gatewise $(cat ../${{ vars.GATEWISE_IMAGE_TXT }})
         git config user.email "gatewiserepo@lhtran.com"
