@@ -66,8 +66,16 @@ jobs:
     - name: Checkout manifests repo
       uses: actions/checkout@v3
       with:
+        repository: lhtran-organization/helper-scripts
+        ssh-key: ${{ secrets.HELPER_SCRIPTS_PRIVATE_KEY }}
+        path: ./helper-scripts
+
+    - name: Checkout manifests repo
+      uses: actions/checkout@v3
+      with:
         repository: lhtran-organization/gatewise-manifests
         ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }}
+        path: ./manifest
 
     - name: download gatewise image name
       uses: actions/download-artifact@v3
@@ -75,9 +83,10 @@ jobs:
         name: ${{ vars.GATEWISE_IMAGE_TXT }}
         path: ./
 
-    - run: |
+    - working-directory: ./manifest
+      run: |
         pip install ruamel.yaml
-        python image_update.py ${{ vars.GATEWISE_IMAGE_TXT }}
+        python ../helper-scripts/kubernetes/deploy_image_update.py ./deployment.yaml longhtran91/gatewise $(cat ../${{ vars.GATEWISE_IMAGE_TXT }})
         git config user.email "gatewiserepo@lhtran.com"
         git config user.name "Gatewise Repo"
         git add deployment.yaml
