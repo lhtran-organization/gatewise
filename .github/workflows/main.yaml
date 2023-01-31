@@ -73,8 +73,11 @@ jobs:
       with:
         repository: lhtran-organization/gatewise-manifests
         ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }}
-        path: ./manifests
+
     - run: |
         pip install ruamel.yaml
-        python ./manifests/image_update.py ${{ vars.GATEWISE_IMAGE_TXT }}
+        python image_update.py ${{ vars.GATEWISE_IMAGE_TXT }}
+        git add deployment.yaml
+        git commit -m "update deployment image"
+        git push
 
