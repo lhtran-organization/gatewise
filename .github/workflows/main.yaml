@@ -47,7 +47,7 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-    - name: save image name
+    - name: echo image name
       run: |
         echo '${{ steps.meta.outputs.tags }}' | head -1 > /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
