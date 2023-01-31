@@ -47,9 +47,9 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-    - name: echo tag build
+    - name: save image name
       run: |
-        head -1 '${{ steps.meta.outputs.tags }}' > /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
+        echo '${{ steps.meta.outputs.tags }}' | head -1 > /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
     - name: upload gatewise image name
       uses: actions/upload-artifact@v3
@@ -57,7 +57,7 @@ jobs:
         name: ${{ vars.GATEWISE_IMAGE_TXT }}
         path: /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
-  update_new_build_version:
+  update_manifests_repo:
     if: ${{ github.event_name == 'push' }} && ${{ github.ref == 'refs/heads/master' }}
     needs: [build_docker_image]
     runs-on: ubuntu-22.04
