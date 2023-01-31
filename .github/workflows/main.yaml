@@ -49,27 +49,33 @@ jobs:
 
     - name: echo tag build
       run: |
-        echo '${{ steps.meta.outputs.tags }}[0]'
+        head -1 '${{ steps.meta.outputs.tags }}' > /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
-    - name: upload gatewise deploy version
+    - name: upload gatewise image name
       uses: actions/upload-artifact@v3
       with:
-        name: gatewise-version
-        path: /tmp/version
+        name: ${{ vars.GATEWISE_IMAGE_TXT }}
+        path: /tmp/${{ vars.GATEWISE_IMAGE_TXT }}
 
   update_new_build_version:
+    if: ${{ github.event_name == 'push' }} && ${{ github.ref == 'refs/heads/master' }}
     needs: [build_docker_image]
     runs-on: ubuntu-22.04
     steps:
-    - name: get gatewise build version
+    - name: download gatewise image name
       uses: actions/download-artifact@v3
       with:
-        name: gatewise-version
+        name: ${{ vars.GATEWISE_IMAGE_TXT }}
         path: ./
 
     - name: Checkout manifests repo
       uses: actions/checkout@v3
       with:
         repository: lhtran-organization/gatewise-manifests
-        ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }} 
+        ssh-key: ${{ secrets.GATEWISE_MANIFESTS_DEPLOY_PRIVATE_KEY }}
+
+    - name: run iamge update script
+      run: |
+        pip install ruamel.yaml
+        python image_update.py {{ vars.GATEWISE_IMAGE_TXT }}
 
