@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-    - name: Checkout manifests repo
+    - name: Checkout helper scripts repo
       uses: actions/checkout@v3
       with:
         repository: lhtran-organization/helper-scripts
