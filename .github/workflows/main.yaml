@@ -87,7 +87,7 @@ jobs:
     - working-directory: ./manifest
       run: |
         pip install ruamel.yaml
-        python ../helper-scripts/kubernetes/deploy_image_update.py ./deployment.yaml longhtran91/gatewise $(cat ../${{ vars.GATEWISE_IMAGE_TXT }})
+        python ../helper-scripts/kubernetes/deploy_image_update.py --file ./deployment.yaml --image $(cat ../${{ vars.GATEWISE_IMAGE_TXT }})
         git config user.email "gatewiserepo@lhtran.com"
         git config user.name "Gatewise Repo"
         git add deployment.yaml
